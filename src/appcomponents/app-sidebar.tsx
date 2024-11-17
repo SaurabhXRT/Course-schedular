@@ -1,5 +1,7 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
-
+import { Home, Inbox, Settings, User } from "lucide-react";
+import { Login } from "./login";
+import { Link } from "react-router-dom";
+import { useAuth } from "../context/authContext";
 import {
   Sidebar,
   SidebarContent,
@@ -9,59 +11,68 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
-// Menu items.
 const items = [
   {
     title: "Home",
-    url: "#",
+    url: "/",
     icon: Home,
   },
   {
     title: "Inbox",
-    url: "#",
+    url: "/inbox",
     icon: Inbox,
   },
   {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
     title: "Settings",
-    url: "#",
+    url: "/settings",
     icon: Settings,
   },
-]
+  {
+    title: "Profile",
+    url: "/profile",
+    icon: User,
+  },
+];
 
 export function AppSidebar() {
+  const { authToken } = useAuth();
+
   return (
-    <Sidebar>
-      <SidebarContent>
+    <Sidebar >
+      <SidebarContent className="mt-20">
         <SidebarGroup>
-          <SidebarGroupLabel>Course Schedular</SidebarGroupLabel>
+          <SidebarGroupLabel>ScheduleWise</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu >
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                  <SidebarMenuButton asChild className="mb-5">
+                    <Link to={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        {!authToken && (
+          <SidebarGroup className="mt-40">
+            <div
+              style={{
+                marginTop: "auto",
+                padding: "1rem",
+                borderTop: "1px solid #ddd",
+              }}
+            >
+              <Login />
+            </div>
+          </SidebarGroup>
+        )}
       </SidebarContent>
     </Sidebar>
-  )
+  );
 }
