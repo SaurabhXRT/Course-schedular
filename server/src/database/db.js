@@ -1,13 +1,14 @@
 const { Sequelize } = require('sequelize');
-
+const pg = require("pg");
 const sequelize = new Sequelize(
     "postgres",
     "postgres.eoboyeyjferyxftkelaw",
     "Iop890@iop#$",
     {
         host: "aws-0-ap-southeast-1.pooler.supabase.com",
-        port: process.env.DB_PORT,
+        port: 6543,
         dialect: 'postgres',
+        dialectModule: pg,
         logging: false,
     }
 );
