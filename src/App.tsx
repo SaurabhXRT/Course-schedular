@@ -35,7 +35,7 @@ const App = () => {
     <div className="flex flex-row">
       <Router>
         <Layout />
-        <div className="w-full sm:w-[1120px] mx-auto ">
+        <div className="w-screen mx-auto ">
         <Routes>
             <Route
               path="/"

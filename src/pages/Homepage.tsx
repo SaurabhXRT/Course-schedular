@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ScheduleTable from "@/appcomponents/scheduletable";
 
 type Batch = {
   name: string;
@@ -58,6 +59,8 @@ const HomePage = () => {
   const [currentBatch, setCurrentBatch] = useState<string | null>(null);
   const [currentCourse, setCurrentCourse] = useState<string | null>(null);
   const [currentLecturers, setCurrentLecturers] = useState<string[]>([]);
+  const [showtable, setShowTable] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handleAddBatch = () => {
     if (currentBatch && currentCourse && currentLecturers.length > 0) {
@@ -93,6 +96,14 @@ const HomePage = () => {
           (course) => !schedule.some((item) => item.course === course)
         ) || []
     : [];
+
+  const handleshowtable = () => {
+    setIsProcessing(true); // Start processing
+    setTimeout(() => {
+      setShowTable(true); // Show table after 1 minute
+      setIsProcessing(false); // Stop processing
+    }, 10000); // 60 seconds
+  };
 
   return (
     <div className="p-6 justify-center max-w-full sm:max-w-lg mx-auto bg-white shadow-md rounded-md">
@@ -187,19 +198,39 @@ const HomePage = () => {
 
       {/* Schedule Preview */}
       {schedule.length > 0 && (
-        <div className="mt-6">
-          <h2 className="text-lg font-bold mb-4">Schedule</h2>
-          <ul className="list-disc list-inside">
-            {schedule.map((item, index) => (
-              <li key={index}>
-                <strong>Batch:</strong> {item.batch}, <strong>Course:</strong>{" "}
-                {item.course}, <strong>Lecturers:</strong>{" "}
-                {item.lecturers.join(", ")}
-              </li>
-            ))}
-          </ul>
+        <>
+          <div className="mt-6">
+            <h2 className="text-lg font-bold mb-4">Schedule</h2>
+            <ul className="list-disc list-inside">
+              {schedule.map((item, index) => (
+                <li key={index}>
+                  <strong>Batch:</strong> {item.batch}, <strong>Course:</strong>{" "}
+                  {item.course}, <strong>Lecturers:</strong>{" "}
+                  {item.lecturers.join(", ")}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <button
+              onClick={handleshowtable}
+              className="w-full bg-blue-500 text-white font-medium py-2 px-4 rounded-md hover:bg-blue-600 mb-4"
+            >
+              Create Schedule
+            </button>
+          </div>
+        </>
+      )}
+
+      {/* Processing State */}
+      {isProcessing && (
+        <div className="text-center text-gray-700 mt-4">
+          <p>Processing, please wait...</p>
         </div>
       )}
+
+      {/* Display the Schedule Table */}
+      {showtable && <ScheduleTable />}
     </div>
   );
 };

@@ -19,7 +19,7 @@ const UserProfile: React.FC = () => {
   };
   useEffect(() => {
     if (authToken) {
-      fetch("http://localhost:3000/auth/user", {
+      fetch("https://course-schedular.vercel.app/auth/user", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${authToken}`,

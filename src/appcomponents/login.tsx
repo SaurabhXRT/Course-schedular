@@ -26,7 +26,7 @@ const Login: React.FC = () => {
       if (email && name && imageUrl) {
         try {
           const response = await axios.post(
-            "http://localhost:3000/auth/google",
+            "https://course-schedular.vercel.app/auth/google",
             {
               email,
               name,
